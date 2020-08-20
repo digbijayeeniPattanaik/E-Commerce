@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Interfaces;
+using Core.Specifications;
+using AutoMapper;
+using API.Dtos;
 
 namespace API.Controllers
 {
@@ -13,27 +16,40 @@ namespace API.Controllers
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IGenericRepository<ProductBrand> _productBrandRepository;
         private readonly IGenericRepository<ProductType> _productTypeRepository;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IGenericRepository<Product> productRepository, IGenericRepository<ProductBrand> productBrandRepository, IGenericRepository<ProductType> productTypeRepository)
+        public ProductsController(IGenericRepository<Product> productRepository, IGenericRepository<ProductBrand> productBrandRepository, IGenericRepository<ProductType> productTypeRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _productBrandRepository = productBrandRepository;
             _productTypeRepository = productTypeRepository;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
         {
-            var product = await _productRepository.GetListAllAsync();
-            return Ok(product);
+            var spec = new ProductsWithTypesAndBrandsSpecification();
+
+            var product = await _productRepository.ListAsync(spec);
+            var mappedDto = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(product);
+            if (mappedDto != null)
+                return Ok(mappedDto);
+            else
+                return NotFound("Product not found");
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            if (product != null)
-                return Ok(product);
+            var spec = new ProductsWithTypesAndBrandsSpecification(id);
+
+            var product = await _productRepository.GetEntityWithSpec(spec);
+
+            var mappedDto = _mapper.Map<ProductToReturnDto>(product);
+
+            if (mappedDto != null)
+                return Ok(mappedDto);
             else
                 return NotFound("Product not found");
         }
