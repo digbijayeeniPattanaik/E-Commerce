@@ -9,6 +9,10 @@ using Core.Interfaces;
 using Infrastructure.Data.Repository;
 using AutoMapper;
 using API.Helpers;
+using API.Middleware;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using API.Errors;
 
 namespace API
 {
@@ -32,15 +36,34 @@ namespace API
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(typeof(MappingProfiles));
+            services.Configure<ApiBehaviorOptions>(o =>
+            {
+                o.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState.Where(e => e.Value.Errors.Any())
+                        .SelectMany(a => a.Value.Errors)
+                        .Select(a => a.ErrorMessage).ToArray();
+
+                    var errorResponse = new ApiValidationErrorResponse
+                    {
+                        Errors = errors
+                    };
+
+                    return new BadRequestObjectResult(errorResponse);
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            ////if (env.IsDevelopment())
+            ////{
+            ////    app.UseDeveloperExceptionPage();
+            ////}
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
