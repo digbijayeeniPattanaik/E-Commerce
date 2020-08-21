@@ -6,6 +6,9 @@ using Core.Interfaces;
 using Core.Specifications;
 using AutoMapper;
 using API.Dtos;
+using API.Errors;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
@@ -25,7 +28,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
         {
             var spec = new ProductsWithTypesAndBrandsSpecification();
 
@@ -34,11 +37,13 @@ namespace API.Controllers
             if (mappedDto != null)
                 return Ok(mappedDto);
             else
-                return NotFound("Product not found");
+                return NotFound(new ApiResponse((int)HttpStatusCode.BadRequest));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
 
@@ -49,7 +54,7 @@ namespace API.Controllers
             if (mappedDto != null)
                 return Ok(mappedDto);
             else
-                return NotFound("Product not found");
+                return NotFound(new ApiResponse((int)HttpStatusCode.BadRequest));
         }
 
         [HttpGet("brands")]
@@ -59,7 +64,7 @@ namespace API.Controllers
             if (productBrand != null)
                 return Ok(productBrand);
             else
-                return NotFound("ProductBrand not found");
+                return NotFound(new ApiResponse((int)HttpStatusCode.BadRequest));
         }
 
         [HttpGet("types")]
@@ -69,7 +74,7 @@ namespace API.Controllers
             if (productType != null)
                 return Ok(productType);
             else
-                return NotFound("ProductType not found");
+                return NotFound(new ApiResponse((int)HttpStatusCode.BadRequest));
         }
     }
 }

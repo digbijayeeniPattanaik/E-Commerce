@@ -52,7 +52,12 @@ namespace API
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
+            services.AddSwaggerGen(a =>
+            {
+                a.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Skinet API", Version = "v1" });
+            });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,7 +77,8 @@ namespace API
             app.UseStaticFiles();
 
             app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(a => { a.SwaggerEndpoint("/swagger/v1/swagger.json", "Skinet API v1"); });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
