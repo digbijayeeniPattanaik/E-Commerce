@@ -5,39 +5,64 @@
 </ul> -->
 
 <div class="container">
-    <div class="row">
+  <div class="row">
+    <section class="col-3">
+      <h5 class="text-warning ml-3">Sort</h5>
+      <select class="custom-select mb-3">
+        <option>Alphabetical</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+      </select>
+      <h5 class="text-warning ml-3">Brands</h5>
+      <ul class="list-group my-3">
+        <li
+          class="list-group-item"
+          *ngFor="let item of brand"
+          [class.active]="item.id === this.brandIdSelected"
+          [value]="item.id"
+          (click)="onBrandSelected(item.id)"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+      <h5 class="text-warning ml-3">Types</h5>
+      <ul class="list-group my-3">
+        <li
+          class="list-group-item"
+          *ngFor="let item of productType"
+          [class.active]="item.id === this.typeIdSelected"
+          [value]="item.id"
+          (click)="onTypeIdSelected(item.id)"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+    </section>
 
-        <section class="col-3">
-            <h5 class="text-warning ml-3">Sort</h5>
-            <select class="custom-select mb-3">
-                <option>Alphabetical</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-            </select>
-            <h5 class="text-warning ml-3">Brands</h5>
-            <ul class="list-group my-3" >
-                <li class="list-group-item" *ngFor="let item of brand">{{item.name}}</li>
-              </ul>
-              <h5 class="text-warning ml-3">Types</h5>
-            <ul class="list-group my-3">
-                <li class="list-group-item" *ngFor="let item of productType">{{item.name}}</li>
-              </ul>
-        </section>
-
-        <section class="col-9">
-            <div class="d-flex justify-content-between salign-items-center pb-2">
-            <header><span>Showing <strong>{{pageIndex}}</strong> of <strong>{{totalCount}}</strong> Results</span></header>
-            <div class="form-inline mt-2">
-                <input class="form-control mr-2" style="width: 300px" placeholder="Search" type="text">
-                <button class="btn btn-outline-primary my-2">Search</button>
-                <button class="btn btn-outline-success ml-2 my-2">Reset</button>
-            </div>
+    <section class="col-9">
+      <div class="d-flex justify-content-between salign-items-center pb-2">
+        <header>
+          <span
+            >Showing <strong>{{ pageIndex }}</strong> of
+            <strong>{{ totalCount }}</strong> Results</span
+          >
+        </header>
+        <div class="form-inline mt-2">
+          <input
+            class="form-control mr-2"
+            style="width: 300px;"
+            placeholder="Search"
+            type="text"
+          />
+          <button class="btn btn-outline-primary my-2">Search</button>
+          <button class="btn btn-outline-success ml-2 my-2">Reset</button>
         </div>
-            <div class="row">
-                <div class="col-4 mb-4" *ngFor="let item of products">
-               <app-product-item [product] = "item"></app-product-item>
-                </div>
-              </div>
-        </section>
-    </div>
+      </div>
+      <div class="row">
+        <div class="col-4 mb-4" *ngFor="let item of products">
+          <app-product-item [product]="item"></app-product-item>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
