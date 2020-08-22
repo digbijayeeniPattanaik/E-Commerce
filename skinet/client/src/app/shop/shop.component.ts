@@ -17,6 +17,14 @@ brandIdSelected = 0;
 typeIdSelected = 0;
 pageIndex: number;
 totalCount: number;
+pageSize: number;
+sortSelected = 'name';
+sortOptions = [
+  {name: 'Alphabetical', value: 'name'},
+  {name: 'Price: Low to High', value: 'priceAsc'},
+  {name: 'Price: High to Low', value: 'priceDesc'}
+];
+
   constructor(private shopService: ShopService) { }
 
   ngOnInit(): void {
@@ -26,10 +34,11 @@ totalCount: number;
   }
 
   getProducts(): void  {
-    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected).subscribe(response => {
+    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected, this.sortSelected).subscribe(response => {
       this.products = response.data;
       this.pageIndex = response.pageIndex;
       this.totalCount = response.count;
+      this.pageSize = response.pageSize * this.pageIndex;
       }, error => {
         console.error(error);
       });
@@ -58,6 +67,11 @@ totalCount: number;
 
   onTypeIdSelected(typeId: number): void{
     this.typeIdSelected = typeId;
+    this.getProducts();
+  }
+
+  onSortSelected(sortBy: string): void{
+    this.sortSelected = sortBy;
     this.getProducts();
   }
 }
