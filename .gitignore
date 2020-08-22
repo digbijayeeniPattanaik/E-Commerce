@@ -10,3 +10,5 @@
 /skinet/Infrastructure/obj
 /skinet/.vs/skinet
 /.vs
+**/dist
+/dist
