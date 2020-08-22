@@ -15,26 +15,18 @@
                 <option>Price: High to Low</option>
             </select>
             <h5 class="text-warning ml-3">Brands</h5>
-            <ul class="list-group my-3">
-                <li class="list-group-item active">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+            <ul class="list-group my-3" >
+                <li class="list-group-item" *ngFor="let item of brand">{{item.name}}</li>
               </ul>
               <h5 class="text-warning ml-3">Types</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item active">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+                <li class="list-group-item" *ngFor="let item of productType">{{item.name}}</li>
               </ul>
         </section>
 
         <section class="col-9">
             <div class="d-flex justify-content-between salign-items-center pb-2">
-            <header><span>Showing <strong>10</strong> of <strong>16</strong> Results</span></header>
+            <header><span>Showing <strong>{{pageIndex}}</strong> of <strong>{{totalCount}}</strong> Results</span></header>
             <div class="form-inline mt-2">
                 <input class="form-control mr-2" style="width: 300px" placeholder="Search" type="text">
                 <button class="btn btn-outline-primary my-2">Search</button>
