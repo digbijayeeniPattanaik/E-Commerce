@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-section-header',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SectionHeaderComponent implements OnInit {
 
-  constructor() { }
+  breadcrumbs$ :Observable<any[]>;
+  constructor(private bcService : BreadcrumbService) { }
 
   ngOnInit(): void {
+    this.breadcrumbs$ = this.bcService.breadcrumbs$;
   }
 
 }
