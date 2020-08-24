@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class TextErrorComponent implements OnInit {
 
   baseUrl = environment.apiUrl;
+  validationErrors: any;
   constructor(private http : HttpClient) { }
 
   ngOnInit(): void {
@@ -42,10 +43,11 @@ export class TextErrorComponent implements OnInit {
   }
   get400ValidationError()
   {
-    this.http.get(this.baseUrl + 'product/fortytwo').subscribe((response) => {
+    this.http.get(this.baseUrl + 'products/fortytwo').subscribe((response) => {
     console.log(response);
     }, error => {
       console.log(error);
+      this.validationErrors = error.errors;
     });
   }
 }
