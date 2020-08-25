@@ -8,6 +8,9 @@ using AutoMapper;
 using API.Helpers;
 using API.Middleware;
 using API.Extensions;
+using StackExchange.Redis;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace API
 {
@@ -28,6 +31,13 @@ namespace API
         {
             services.AddControllers();
             services.AddDbContext<StoreContext>(a => a.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                Debug.Print(JsonConvert.SerializeObject(ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"), true)));
+                var configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddApplicationServices();
