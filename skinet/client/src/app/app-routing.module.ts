@@ -29,7 +29,13 @@ const routes: Routes = [
       import('./shop/shop.module').then((mod) => mod.ShopModule),
     data: { breadcrumb: 'Shop' },
   }, // dont want to load shop component unless requested for. Lazy loading implemented
-  // { path: 'shop/:id', component: ProductDetailsComponent },
+  // { path: 'shop/:id', component: ProductDetailsComponent },,
+  {
+    path: 'basket',
+    loadChildren: () =>
+      import('./basket/basket.module').then((mod) => mod.BasketModule),
+    data: { breadcrumb: 'Basket' },
+  },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];
 
