@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Net;
-using System.Security.Claims;
+﻿using System.Net;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
@@ -34,7 +32,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             ////var email = HttpContext.User?.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
-            
+
             var user = await _userManager.FindByEmailFromClaimsPrincipleAsync(HttpContext.User);
 
             return new UserDto
@@ -86,7 +84,7 @@ namespace API.Controllers
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if(!result.Succeeded) return Unauthorized(new ApiResponse((int)HttpStatusCode.Unauthorized));
+            if (!result.Succeeded) return Unauthorized(new ApiResponse((int)HttpStatusCode.Unauthorized));
 
             return new UserDto
             {
@@ -99,6 +97,13 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (!CheckEmailExistsAsync(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse
+                {
+                    Errors = new[] { "Email address is in use" }
+                });
+            }
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
