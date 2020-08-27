@@ -11,6 +11,7 @@ using API.Extensions;
 using StackExchange.Redis;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Infrastructure.Identity;
 
 namespace API
 {
@@ -31,6 +32,8 @@ namespace API
         {
             services.AddControllers();
             services.AddDbContext<StoreContext>(a => a.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AppIdentityDbContext>(a => a.UseSqlServer(_configuration.GetConnectionString("IdentityConnection")));
 
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {

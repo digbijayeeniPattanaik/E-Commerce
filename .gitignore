@@ -12,3 +12,5 @@
 /.vs
 **/dist
 /dist
+/skinet/Core/bin/Debug/netstandard2.1
+/skinet/Infrastructure/bin/Debug/netstandard2.1
