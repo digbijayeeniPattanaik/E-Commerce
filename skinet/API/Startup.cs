@@ -9,8 +9,6 @@ using API.Helpers;
 using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
-using System.Diagnostics;
-using Newtonsoft.Json;
 using Infrastructure.Identity;
 
 namespace API
