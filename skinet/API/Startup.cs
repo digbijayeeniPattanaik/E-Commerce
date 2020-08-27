@@ -29,10 +29,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddDbContext<StoreContext>(a => a.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<AppIdentityDbContext>(a => a.UseSqlServer(_configuration.GetConnectionString("IdentityConnection")));
-
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
                 var configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"), true);
@@ -41,6 +40,7 @@ namespace API
 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddApplicationServices();
+            services.AddIdentityServices();
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
             {
