@@ -34,4 +34,13 @@
       >{{ label }} is not valid</span
     >
   </div>
+
+  <div class="invalid-feedback d-block" *ngIf="
+  controlDir &&
+  controlDir.control &&
+  controlDir.control.dirty &&
+  !controlDir.control.valid
+"> <span *ngIf="controlDir.control.errors?.emailExists"
+>{{ label }} is in use</span
+></div>
 </div>
