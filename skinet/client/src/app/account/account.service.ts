@@ -53,6 +53,7 @@ register(values: any){
     map((user: IUser) => {
       if(user){
         localStorage.setItem('token', user.token);
+        this.currentUserSource.next(user);
       }
     })
   );
