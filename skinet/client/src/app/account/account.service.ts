@@ -58,7 +58,7 @@ register(values: any){
   );
 }
 
-logout(values: any){
+logout(){
   localStorage.removeItem('token');
   this.currentUserSource.next(null);
   this.router.navigateByUrl('/');
