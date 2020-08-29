@@ -18,6 +18,8 @@ namespace API.Helpers
             ////CreateMap<AddressDto, Address>();
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
+            CreateMap<AddressDto, Core.Entites.OrderAggregate.Address>();
+
         }
     }
 }
