@@ -16,7 +16,7 @@ basket$:Observable<IBasket>;
     this.basket$ = this.basketService.basket$;
   }
 
-  removeBasketIten(item: IBasketItem)
+  removeBasketItem(item: IBasketItem)
   {
     this.basketService.removeItemFromBasket(item);
   }
