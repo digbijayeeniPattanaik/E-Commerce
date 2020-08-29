@@ -1,0 +1,40 @@
+<div class="container">
+<div class="mt-4">
+<div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="border-0" scope="col">
+            <div class="py-3 text-uppercase">Order</div>
+          </th>
+          <th class="border-0" scope="col">
+            <div class="py-3 text-uppercase">Date</div>
+          </th>
+          <th class="border-0" scope="col">
+            <div class="py-3 text-uppercase">Total</div>
+          </th>
+          <th class="border-0" scope="col">
+            <div class="py-3 text-uppercase">Status</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of orders">
+            <td class="align-middle">
+                <strong>Order no - {{ item.id }}</strong>
+              </td>
+          <td class="align-middle">
+            <strong>{{ item.orderDate | date :'medium'  }}</strong>
+          </td>
+          <td class="align-middle">
+            <strong>{{ item.total  | currency }}</strong>
+          </td>
+          <td class="align-middle">
+            <strong>{{ item.status }}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
