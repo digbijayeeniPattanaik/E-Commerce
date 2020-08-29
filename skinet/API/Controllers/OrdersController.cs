@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Entites.OrderAggregate;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -33,6 +34,32 @@ namespace API.Controllers
             if (order == null) return BadRequest(new ApiResponse((int)HttpStatusCode.BadRequest, "Problem creating order"));
 
             return Ok(order);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
+        {
+            var email = HttpContext.User?.RetrieveEmailFromPrincipal();
+            var orders = await _orderService.GetOrderForUserAsync(email);
+
+            return Ok(orders);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> GetOrderForUser(int id)
+        {
+            var email = HttpContext.User?.RetrieveEmailFromPrincipal();
+            var order = await _orderService.GetOrderByIdAsync(id, email);
+
+            if (order == null) return BadRequest(new ApiResponse((int)HttpStatusCode.NotFound, "Order Not Found"));
+
+            return Ok(order);
+        }
+
+        [HttpGet("deliveryMethods")]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+        {
+            return Ok(await _orderService.GetDeliveryMethodAsync());
         }
     }
 }
