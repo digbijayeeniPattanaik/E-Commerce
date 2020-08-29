@@ -6,7 +6,7 @@
                   <app-checkout-address [checkOutForm]="checkOutForm"></app-checkout-address>
               </cdk-step>
               <cdk-step [label]="'Delivery'">
-               <app-checkout-delivery></app-checkout-delivery>
+               <app-checkout-delivery [checkOutForm]="checkOutForm"></app-checkout-delivery>
             </cdk-step>
             <cdk-step [label]="'Review'">
                 <app-checkout-review></app-checkout-review>

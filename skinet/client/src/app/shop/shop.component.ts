@@ -10,7 +10,7 @@ import { ShopParams } from '../shared/models/shopParams';
   styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', { static: false }) searchTerm: ElementRef;//static false means the elements will be displayed after it is available
+  @ViewChild('search', { static: false }) searchTerm: ElementRef; //static false means the elements will be displayed after it is available
   products: IProduct[];
   brand: IBrand[];
   productType: IType[];
