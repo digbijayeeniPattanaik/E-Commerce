@@ -4,16 +4,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="border-0" scope="col">
+          <th class="border-0 bg-light" scope="col">
             <div class="py-3 text-uppercase">Order</div>
           </th>
-          <th class="border-0" scope="col">
+          <th class="border-0 bg-light" scope="col">
             <div class="py-3 text-uppercase">Date</div>
           </th>
-          <th class="border-0" scope="col">
+          <th class="border-0 bg-light" scope="col">
             <div class="py-3 text-uppercase">Total</div>
           </th>
-          <th class="border-0" scope="col">
+          <th class="border-0 bg-light" scope="col">
             <div class="py-3 text-uppercase">Status</div>
           </th>
         </tr>
@@ -21,7 +21,9 @@
       <tbody>
         <tr *ngFor="let item of orders">
             <td class="align-middle">
-                <strong>Order no - {{ item.id }}</strong>
+                 <a routerLink="/orders/{{ item.id }}">
+                    <strong>Order no - {{ item.id }}</strong>
+                  </a>
               </td>
           <td class="align-middle">
             <strong>{{ item.orderDate | date :'medium'  }}</strong>
