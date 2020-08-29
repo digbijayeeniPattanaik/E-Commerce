@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-8">
           <app-stepper [linearModeSelected]="false" #appStepper>
-              <cdk-step [label]="'Address'">
+              <cdk-step [label]="'Address'" [completed]="(checkOutForm.get('addressForm')).valid">
                   <app-checkout-address [checkOutForm]="checkOutForm"></app-checkout-address>
               </cdk-step>
-              <cdk-step [label]="'Delivery'">
+              <cdk-step [label]="'Delivery'"[completed]="(checkOutForm.get('deliveryForm')).valid">
                <app-checkout-delivery [checkOutForm]="checkOutForm"></app-checkout-delivery>
             </cdk-step>
             <cdk-step [label]="'Review'">
