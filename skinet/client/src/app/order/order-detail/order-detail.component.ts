@@ -1,29 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import {OrderService} from '../order.service';
+import { OrderService } from '../order.service';
 import { IOrder } from 'src/app/shared/models/order';
+import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
-  styleUrls: ['./order-detail.component.scss']
+  styleUrls: ['./order-detail.component.scss'],
 })
 export class OrderDetailComponent implements OnInit {
   order: IOrder;
-  constructor(private orderService: OrderService) { }
-
-  ngOnInit(): void {
+  constructor(
+    private orderService: OrderService,
+    private activatedRoute: ActivatedRoute,
+    private bcService: BreadcrumbService
+  ) {
+    this.bcService.set('@OrderDetailed', '');
   }
 
+  ngOnInit(): void {
+    this.getOrder();
+  }
 
-  getOrder(id: number) {
-    this.orderService.getOrder(id).subscribe(
-      (response) => {
-        this.order = response;
-        console.log(response);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  getOrder() {
+    this.orderService
+      .getOrder(+this.activatedRoute.snapshot.paramMap.get('id'))
+      .subscribe(
+        (response: IOrder) => {
+          this.order = response;
+          this.bcService.set(
+            '@OrderDetailed',
+            'Order#' + this.order.id + ' - ' + this.order.status
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 }

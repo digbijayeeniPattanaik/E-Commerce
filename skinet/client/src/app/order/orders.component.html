@@ -1,5 +1,5 @@
 <div class="container">
-<div class="mt-4">
+<div class="mt-5">
 <div class="table-responsive">
     <table class="table">
       <thead>
@@ -19,21 +19,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of orders">
-            <td class="align-middle">
-                 <a routerLink="/orders/{{ item.id }}">
-                    <strong>Order no - {{ item.id }}</strong>
-                  </a>
-              </td>
-          <td class="align-middle">
-            <strong>{{ item.orderDate | date :'medium'  }}</strong>
-          </td>
-          <td class="align-middle">
-            <strong>{{ item.total  | currency }}</strong>
-          </td>
-          <td class="align-middle">
-            <strong>{{ item.status }}</strong>
-          </td>
+        <tr *ngFor="let order of orders" routerLink="/orders/{{order.id}}">
+        <th>#{{order.id}}</th>
+        <th>{{ order.orderDate | date :'medium'  }}</th>
+        <th>{{ order.total  | currency }}</th>
+        <th>{{ order.total  | currency }}</th>
         </tr>
       </tbody>
     </table>
