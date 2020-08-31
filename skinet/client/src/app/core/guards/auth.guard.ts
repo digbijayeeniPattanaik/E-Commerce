@@ -14,19 +14,17 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private accountservice: AccountService, private router: Router){
-
-  }
+  constructor(private accountservice: AccountService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.accountservice.currentUser$.pipe(map(auth => {
-      if(auth) {
-        return true;
-      }
-      this.router.navigate(['account/login'], {queryParams:{returnUrl:state.url}});
-    })
+    state: RouterStateSnapshot): Observable<boolean> {
+    return this.accountservice.currentUser$.pipe(
+      map(auth => {
+        if (auth) {
+          return true;
+        }
+        this.router.navigate(['account/login'], {queryParams: {returnUrl: state.url}});
+      })
     );
   }
 }
