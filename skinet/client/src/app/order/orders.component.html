@@ -1,0 +1,32 @@
+<div class="container">
+<div class="mt-5">
+<div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="border-0 bg-light" scope="col">
+            <div class="py-3 text-uppercase">Order</div>
+          </th>
+          <th class="border-0 bg-light" scope="col">
+            <div class="py-3 text-uppercase">Date</div>
+          </th>
+          <th class="border-0 bg-light" scope="col">
+            <div class="py-3 text-uppercase">Total</div>
+          </th>
+          <th class="border-0 bg-light" scope="col">
+            <div class="py-3 text-uppercase">Status</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders" routerLink="/orders/{{order.id}}">
+        <th>#{{order.id}}</th>
+        <th>{{ order.orderDate | date :'medium'  }}</th>
+        <th>{{ order.total  | currency }}</th>
+        <th>{{ order.total  | currency }}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
