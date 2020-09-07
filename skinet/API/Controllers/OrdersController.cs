@@ -50,6 +50,7 @@ namespace API.Controllers
         public async Task<ActionResult<OrderToReturnDto>> GetOrderForUser(int id)
         {
             var email = HttpContext.User?.RetrieveEmailFromPrincipal();
+
             var order = await _orderService.GetOrderByIdAsync(id, email);
 
             if (order == null) return BadRequest(new ApiResponse((int)HttpStatusCode.NotFound, "Order Not Found"));
