@@ -31,14 +31,16 @@ export class BasketService {
     this.shipping = deliveryMethod.price;
     const basket = this.getCurrentBasketValue();
     basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
     this.calculateTotals();
     this.setBasket(basket);
   }
-  
+
   getBasket(id: string) {
     return this.http.get(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
+        this.shipping = basket.shippingPrice;
         this.calculateTotals();
       })
     );
@@ -125,6 +127,15 @@ export class BasketService {
     const subtotal = basket.items.reduce((a, b) => b.price * b.quantity + a, 0); // func syntax
     const total = subtotal + shipping;
     this.basketTotalSource.next({ shipping, total, subtotal });
+  }
+
+  createPaymentIntent(){
+    return this.http.post(this.baseUrl + 'payment/' + this.getCurrentBasketValue().id, {})
+    .pipe(map((basket: IBasket) => {
+      this.basketSource.next(basket);
+      console.log(this.getCurrentBasketValue());
+    })
+    );
   }
 
   private addOrUpdateItem(
